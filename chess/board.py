@@ -67,58 +67,66 @@ class BoardPermutation(object):
         self.rows = rows
         self.columns = columns
 
-    def place_pieces(self, board_list, board, pieces, index=0, offset=0):
-        if index == len(pieces):
-            board_list.append(board)
-        else:
-            current_offset = offset
-            piece = create_piece(pieces[index])
-            while current_offset < (board.rows * board.columns):
-                try:
-                    used_offset = board.place_piece(piece, current_offset)
-                except ValueError:
-                    break
-                self.place_pieces(board_list, copy.deepcopy(board), pieces,
-                                  index+1, used_offset+1)
-                board.remove_piece(piece)
-                current_offset = used_offset + 1
-
     def build_boards(self, list_of_piece_names):
         permutations = []
         board_list = set()
-        self.build_permutations(permutations, [], list_of_piece_names)
+        build_permutations(permutations, [], list_of_piece_names)
         for pos, permutation in enumerate(permutations):
             boards = self.build_board(permutation)
             board_list.update(set(boards))
         return board_list
 
-    def build_board(self, permutation):
-        """
+def place_pieces(board_list, board, pieces, index=0, offset=0):
+    if index == len(pieces):
+        board_list.append(board)
+    else:
+        current_offset = offset
+        piece = create_piece(pieces[index])
+        while current_offset < (board.rows * board.columns):
+            try:
+                used_offset = board.place_piece(piece, current_offset)
+            except ValueError:
+                break
+            place_pieces(board_list, copy.deepcopy(board), pieces, index+1,
+                              used_offset+1)
+            board.remove_piece(piece)
+            current_offset = used_offset + 1
 
-        :param permutation: :type list
-        :return:
-        """
-        boards = []
-        board = Board(self.rows, self.columns)
-        self.place_pieces(boards, board, permutation, 0, 0)
-        return boards
+def build_boards(rows, columns, permutation):
+    """
 
-    def build_permutations(self, permutations, final, initial):
-        """
-        Create all the possible permutations of a list of pieces.
-        :type permutations: list
-        :type final: list
-        :type initial: list
-        """
-        if not initial:
-            if final not in permutations:
-                permutations.append(final)
-        else:
-            for position, _ in enumerate(initial):
-                initial_copy = list(initial)
-                final_copy = list(final)
-                final_copy.append(initial_copy.pop(position))
-                self.build_permutations(permutations, final_copy, initial_copy)
+    :param permutation: :type list
+    :return:
+    """
+    boards = []
+    board = Board(rows, columns)
+    place_pieces(boards, board, permutation, 0, 0)
+    return boards
 
-    def __str__(self):
-        width, _ = get_terminal_size()
+def build_permutations(permutations, initial, final=None):
+    """
+    Create all the possible permutations of a list of pieces.
+    :type permutations: list
+    :type final: list
+    :type initial: list
+    """
+    if not final:
+        final = []
+    if not initial:
+        if final not in permutations:
+            permutations.append(final)
+    else:
+        for position, _ in enumerate(initial):
+            initial_copy = list(initial)
+            final_copy = list(final)
+            final_copy.append(initial_copy.pop(position))
+            build_permutations(permutations, initial_copy, final_copy)
+
+def build_board_set(rows, columns, list_of_pieces):
+    permutations = []
+    board_set = set()
+    build_permutations(permutations, list_of_pieces)
+    for permutation in permutations:
+        boards = build_boards(rows, columns, permutation)
+        board_set.update(set(boards))
+    return board_set

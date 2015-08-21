@@ -1,6 +1,6 @@
 import unittest
 
-from chess.board import Board, BoardPermutation
+from chess.board import Board, build_permutations, build_board_set
 from chess.pieces import create_piece
 
 
@@ -33,13 +33,11 @@ class TestBoardPermutation(unittest.TestCase):
 
     def test_build_permutations(self):
         permutations = []
-        bp = BoardPermutation(3, 3)
-        bp.build_permutations(permutations, [], ['r', 'q', 'k', 'n', 'b'])
+        build_permutations(permutations, ['r', 'q', 'k', 'n', 'b'])
         self.assertEqual(len(permutations), 120)
 
     def test_build_boards(self):
-        bp = BoardPermutation(3, 3)
-        boards = bp.build_boards(['k', 'k', 'r'])
+        boards = build_board_set(3, 3, ['k', 'k', 'r'])
         self.assertEqual(len(boards), 4)
 
 
