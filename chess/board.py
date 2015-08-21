@@ -101,7 +101,7 @@ def build_boards(rows, columns, permutation):
     boards = []
     board = Board(rows, columns)
     place_pieces(boards, board, permutation, 0, 0)
-    return boards
+    return set(boards)
 
 def build_permutations(permutations, initial, final=None):
     """
@@ -128,5 +128,5 @@ def build_board_set(rows, columns, list_of_pieces):
     build_permutations(permutations, list_of_pieces)
     for permutation in permutations:
         boards = build_boards(rows, columns, permutation)
-        board_set.update(set(boards))
+        board_set.update(boards)
     return board_set
