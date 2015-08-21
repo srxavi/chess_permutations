@@ -18,11 +18,15 @@ List all the unique configurations to the console for which all of the pieces ca
 
 Usage
 -----
-pythom -m chess.main -p \<number of parallel processes\>
+pythom -m chess.main -w \<number of parallel processes \> -r \<number of rows\> -c \<number of  columns\> -p \<string of pieces (like 'kkrrnn')\>
 
 
 Testing
 -------
 python runtests.py
 
+
+Results
+-------
+In a Intel(R) Core(TM) i5-4460  CPU @ 3.20GHz the process took 2010 seconds using 4 cores to find 3,063,828 possibilities for a 7x7 board with 2 kings, 2 queens, 2 bishops and one knight.
 
