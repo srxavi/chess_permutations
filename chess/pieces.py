@@ -7,19 +7,22 @@ class Piece(object):
     __metaclass__ = ABCMeta
     name = ''
 
-    def __init__(self, x, y):
+    def __init__(self, x=UNPLACED, y=UNPLACED):
         self.x = x
         self.y = y
-
-    def is_attacking(self, piece):
-        return self.is_attacking_position(piece.x, piece.y)
 
     @abstractmethod
     def is_attacking_position(self, row, column):
         pass
 
+    def is_attacking(self, piece):
+        return self.is_attacking_position(piece.x, piece.y)
+
     def is_placed(self):
         return not (self.x == UNPLACED or self.x == UNPLACED)
+
+    def place(self, row, column):
+        self.x, self.y = row, column
 
     def __str__(self):
         return self.name
@@ -48,7 +51,7 @@ class King(Piece):
     def moves(self):
         x, y = self.x, self.y
         return frozenset([
-            (x, y + 1), (x, y - 1), (x + 1, y), (x + 1, y + 1),
+            (x, y), (x, y + 1), (x, y - 1), (x + 1, y), (x + 1, y + 1),
             (x + 1, y - 1), (x - 1, y), (x - 1, y + 1), (x - 1, y - 1)])
 
     def is_attacking_position(self, row, column):
@@ -70,7 +73,7 @@ class Bishop(Piece):
 
     def is_attacking_position(self, row, column):
         if self.is_placed():
-            return abs(row - self.x) == abs(column == self.y)
+            return abs(row - self.x) == abs(column - self.y)
 
 
 class Knight(Piece):
@@ -80,8 +83,9 @@ class Knight(Piece):
     def moves(self):
         x, y = self.x, self.y
         return frozenset([
-            (x + 1, y - 2), (x + 2, y - 1), (x + 2, y + 1), (x + 1, y + 2),
-            (x - 1, y + 2), (x - 2, y + 1), (x - 2, y - 1), (x - 1, y - 2)])
+            (x, y), (x + 1, y - 2), (x + 2, y - 1), (x + 2, y + 1),
+            (x + 1, y + 2), (x - 1, y + 2), (x - 2, y + 1), (x - 2, y - 1),
+            (x - 1, y - 2)])
 
     def is_attacking_position(self, row, column):
         if self.is_placed():
