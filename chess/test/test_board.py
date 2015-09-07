@@ -32,8 +32,7 @@ class TestBoard(unittest.TestCase):
 class TestBoardPermutation(unittest.TestCase):
 
     def test_build_permutations(self):
-        permutations = []
-        build_permutations(permutations, ['r', 'q', 'k', 'n', 'b'])
+        permutations = build_permutations(['r', 'q', 'k', 'n', 'b'])
         self.assertEqual(len(permutations), 120)
 
     def test_build_boards(self):

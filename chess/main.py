@@ -17,8 +17,7 @@ def build_board_permutations(rows, columns, used_pieces, nprocs):
     :param nprocs:
     :return:
     """
-    permutations = []
-    build_permutations(permutations, used_pieces)
+    permutations = build_permutations(used_pieces)
 
     progress_bar = ProgressBar(maxval=len(permutations),
                                widgets=[Bar(), AdaptiveETA()]).start()

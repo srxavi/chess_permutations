@@ -1,6 +1,8 @@
 from __future__ import print_function
 
 import copy
+from itertools import permutations
+
 
 from chess.pieces import create_piece
 
@@ -113,24 +115,12 @@ def build_boards(rows, columns, permutation):
     return set(boards)
 
 
-def build_permutations(permutations, initial, final=None):
+def build_permutations(initial):
     """
     Create all the possible permutations of a list of pieces.
-    :type permutations: list
-    :type final: list
     :type initial: list
     """
-    if not final:
-        final = []
-    if not initial:
-        if final not in permutations:
-            permutations.append(final)
-    else:
-        for position, _ in enumerate(initial):
-            initial_copy = list(initial)
-            final_copy = list(final)
-            final_copy.append(initial_copy.pop(position))
-            build_permutations(permutations, initial_copy, final_copy)
+    return set(permutations(initial, len(initial)))
 
 
 def build_board_set(rows, columns, list_of_pieces):
@@ -141,10 +131,9 @@ def build_board_set(rows, columns, list_of_pieces):
     :param list_of_pieces:
     :return:
     """
-    permutations = []
+    permutation_set = build_permutations(list_of_pieces)
     board_set = set()
-    build_permutations(permutations, list_of_pieces)
-    for permutation in permutations:
+    for permutation in permutation_set:
         boards = build_boards(rows, columns, permutation)
         board_set.update(boards)
     return board_set
