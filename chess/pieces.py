@@ -117,9 +117,9 @@ class Knight(Piece):
         row, column = self.row, self.column
         return frozenset([
             (row, column), (row + 1, column - 2), (row + 2, column - 1),
-            (row + 2, column + 1), (row + 1, column + 2), (row - 1, column + 2),
-            (row - 2, column + 1), (row - 2, column - 1),
-            (row - 1, column - 2)])
+            (row + 2, column + 1), (row + 1, column + 2),
+            (row - 1, column + 2), (row - 2, column + 1),
+            (row - 2, column - 1), (row - 1, column - 2)])
 
     def is_attacking_position(self, row, column):
         if self.is_placed():

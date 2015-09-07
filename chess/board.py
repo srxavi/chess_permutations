@@ -7,8 +7,8 @@ from chess.pieces import create_piece
 
 class Board(object):
     """
-    Class that models a board as a set of columns and rows with a list of placed
-    pieces.
+    Class that models a board as a set of columns and rows with a list of
+    placed pieces.
     """
     def __init__(self, rows, columns, pieces=None):
         self.rows = rows

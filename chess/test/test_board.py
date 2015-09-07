@@ -39,5 +39,3 @@ class TestBoardPermutation(unittest.TestCase):
     def test_build_boards(self):
         boards = build_board_set(3, 3, ['k', 'k', 'r'])
         self.assertEqual(len(boards), 4)
-
-
