@@ -2,6 +2,7 @@ import unittest
 
 from chess.pieces import create_piece, King, Queen, Bishop, Rook, Knight
 
+
 class TestPieces(unittest.TestCase):
 
     def test_create_pieces(self):
@@ -14,7 +15,7 @@ class TestPieces(unittest.TestCase):
     def test_place_piece(self):
         king = King()
         king.place(0, 0)
-        self.assertTupleEqual((king.x, king.y), (0, 0))
+        self.assertTupleEqual((king.row, king.column), (0, 0))
 
     def test_king_attacks(self):
         king = create_piece('k', 0, 0)
