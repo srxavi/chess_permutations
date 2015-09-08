@@ -25,11 +25,6 @@ class Board(object):
         """Return an offset given a row and a column."""
         return row * self.columns + column
 
-    def get_piece_offsets(self):
-        """Return all the used offsets in the board."""
-        return [self.get_offset(piece.row, piece.column) for piece in
-                self.pieces if piece.is_placed()]
-
     def is_safe(self, piece):
         """Check if a piece is save in a given position."""
         for placed in self.pieces:
